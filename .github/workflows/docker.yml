@@ -15,13 +15,13 @@ jobs:
       matrix:
         windows:
           - base_image: servercore
-            base_version: ltsc2019
-            powershell_base_version: 1809
-            runs_on: 2019
-          - base_image: servercore
             base_version: ltsc2022
             powershell_base_version: ltsc2022
             runs_on: 2022
+          - base_image: servercore
+            base_version: ltsc2025
+            powershell_base_version: ltsc2025
+            runs_on: 2025
         wix:
           - version: "3.10.4"
             version_minor: "3.10"
