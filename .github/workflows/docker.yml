@@ -151,6 +151,7 @@ jobs:
           - version: "6.0.2"
             version_minor: "6.0"
             version_major: "6"
+            install_path: "C:\\Program Files\\WiX Toolset v6.0"
             download_url: "https://github.com/wixtoolset/wix/releases/download/v6.0.2/wix-cli-x64.msi"
             download_hash: "A8A5CC7443353CEF3AB900C60CD7A3A5EE601746319D104AC7B12AD0CED2345C"
 
@@ -177,6 +178,7 @@ jobs:
             `
             '--build-arg=WIX_DOWNLOAD_URL=${{ matrix.wix.download_url }}' `
             '--build-arg=WIX_DOWNLOAD_HASH_SHA256=${{ matrix.wix.download_hash }}' `
+            '--build-arg=WIX_TOOL_PATH=${{ matrix.windows.install_path }}' `
             `
             '--build-arg=BASE_IMAGE=${{ matrix.windows.base_image }}' `
             '--build-arg=BASE_IMAGE_VERSION=${{ matrix.windows.base_version }}' `

@@ -40,7 +40,7 @@ RUN curl -SL --output vs_buildtools.exe https://aka.ms/vs/17/release/vs_buildtoo
 
 ARG WIX_DOWNLOAD_URL=https://github.com/wixtoolset/wix/releases/download/v6.0.2/wix-cli-x64.msi
 ARG WIX_DOWNLOAD_HASH_SHA256=A8A5CC7443353CEF3AB900C60CD7A3A5EE601746319D104AC7B12AD0CED2345C
-ARG WIX_TOOL_PATH=C:\\Program Files\\WiX Toolset v6.0
+ARG WIX_TOOL_PATH="C:\\Program Files\\WiX Toolset v6.0"
 
 ENV TEMP=C:\\Windows\\TEMP
 
@@ -65,7 +65,8 @@ RUN Write-Host ('Downloading wix ({0}) ...' -f $env:WIX_DOWNLOAD_URL); `
 
 SHELL ["cmd", "/S", "/C"]
 
-RUN setx PATH "%PATH%;%WIX_TOOL_PATH%\bin;%ProgramFiles(x86)%\Microsoft SDKs\ClickOnce\SignTool" /m
+RUN setx PATH "%PATH%;%WIX_TOOL_PATH%\bin;%ProgramFiles(x86)%\Microsoft SDKs\ClickOnce\SignTool" /m `
+    && setx WIX_TOOL_PATH "%WIX_TOOL_PATH%" /m
 
 RUN mkdir C:\App
 WORKDIR C:\\App
