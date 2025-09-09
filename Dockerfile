@@ -1,7 +1,6 @@
-ARG BASE_IMAGE_PWSH_VERSION=1809
 ARG BASE_IMAGE=servercore
 ARG BASE_IMAGE_VERSION=ltsc2019
-FROM mcr.microsoft.com/powershell:lts-windows${BASE_IMAGE}-${BASE_IMAGE_PWSH_VERSION} AS download
+FROM mcr.microsoft.com/dotnet/sdk:8.0-windows${BASE_IMAGE}-${BASE_IMAGE_VERSION} AS download
 
 ARG WIX_DOWNLOAD_URL=https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311-binaries.zip
 ARG WIX_DOWNLOAD_HASH_SHA256=2c1888d5d1dba377fc7fa14444cf556963747ff9a0a289a3599cf09da03b9e2e

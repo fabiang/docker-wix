@@ -16,11 +16,9 @@ jobs:
         windows:
           - base_image: servercore
             base_version: ltsc2022
-            powershell_base_version: ltsc2022
             runs_on: 2022
           - base_image: servercore
             base_version: ltsc2025
-            powershell_base_version: ltsc2025
             runs_on: 2025
         wix:
           - version: "3.10.4"
@@ -39,10 +37,15 @@ jobs:
             download_url: "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311-binaries.zip"
             download_hash: "2c1888d5d1dba377fc7fa14444cf556963747ff9a0a289a3599cf09da03b9e2e"
           - version: "3.14.0"
-            version_minor: "3.14"
-            version_major: "3"
+            version_minor: ""
+            version_major: ""
             download_url: "https://github.com/wixtoolset/wix3/releases/download/wix314rtm/wix314-binaries.zip"
             download_hash: "13f067f38969faf163d93a804b48ea0576790a202c8f10291f2000f0e356e934"
+          - version: "3.14.1"
+            version_minor: "3.14"
+            version_major: "3"
+            download_url: "https://github.com/wixtoolset/wix3/releases/download/wix3141rtm/wix314-binaries.zip"
+            download_hash: "6ac824e1642d6f7277d0ed7ea09411a508f6116ba6fae0aa5f2c7daa2ff43d31"
 
     env:
       IMAGE_NAME_FULL: "fabiang/wix3:${{ matrix.wix.version }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
@@ -68,7 +71,6 @@ jobs:
             '--build-arg=WIX_DOWNLOAD_URL=${{ matrix.wix.download_url }}' `
             '--build-arg=WIX_DOWNLOAD_HASH_SHA256=${{ matrix.wix.download_hash }}' `
             `
-            '--build-arg=BASE_IMAGE_PWSH_VERSION=${{ matrix.windows.powershell_base_version }}' `
             '--build-arg=BASE_IMAGE=${{ matrix.windows.base_image }}' `
             '--build-arg=BASE_IMAGE_VERSION=${{ matrix.windows.base_version }}' `
             .
