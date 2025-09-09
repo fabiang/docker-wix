@@ -10,7 +10,7 @@ on:
     - cron: "0 12 1-7 * 2"
 
 jobs:
-  docker-image-windows:
+  docker-image-windows-v3:
     strategy:
       matrix:
         windows:
@@ -48,9 +48,12 @@ jobs:
             download_hash: "6ac824e1642d6f7277d0ed7ea09411a508f6116ba6fae0aa5f2c7daa2ff43d31"
 
     env:
-      IMAGE_NAME_FULL: "fabiang/wix3:${{ matrix.wix.version }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
-      IMAGE_NAME_MINOR: "fabiang/wix3:${{ matrix.wix.version_minor }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
-      IMAGE_NAME_MAJOR: "fabiang/wix3:${{ matrix.wix.version_major }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
+      IMAGE_NAME_FULL: "fabiang/wix:${{ matrix.wix.version }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
+      IMAGE_NAME_MINOR: "fabiang/wix:${{ matrix.wix.version_minor }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
+      IMAGE_NAME_MAJOR: "fabiang/wix:${{ matrix.wix.version_major }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
+      IMAGE_NAME_FULL_OLD: "fabiang/wix3:${{ matrix.wix.version }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
+      IMAGE_NAME_MINOR_OLD: "fabiang/wix3:${{ matrix.wix.version_minor }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
+      IMAGE_NAME_MAJOR_OLD: "fabiang/wix3:${{ matrix.wix.version_major }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
 
     runs-on: windows-${{ matrix.windows.runs_on }}
 
@@ -65,7 +68,7 @@ jobs:
 
       - name: Build Image
         run: |
-          docker build -f Dockerfile `
+          docker build -f v3/Dockerfile `
             -t '${{ env.IMAGE_NAME_FULL }}' `
             `
             '--build-arg=WIX_DOWNLOAD_URL=${{ matrix.wix.download_url }}' `
@@ -74,14 +77,21 @@ jobs:
             '--build-arg=BASE_IMAGE=${{ matrix.windows.base_image }}' `
             '--build-arg=BASE_IMAGE_VERSION=${{ matrix.windows.base_version }}' `
             .
+      - name: Tag Old Repo
+        run: |
+          docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_FULL_OLD }}'
 
       - name: Tag Minor
         if: "${{ matrix.wix.version_minor != '' }}"
-        run: docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MINOR }}'
+        run: |
+          docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MINOR }}'
+          docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MINOR_OLD }}'
 
       - name: Tag Major
         if: "${{ matrix.wix.version_major != '' }}"
-        run: docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MAJOR }}'
+        run: |
+          docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MAJOR }}'
+          docker tag '${{ env.IMAGE_NAME_FULL }}' '${{ env.IMAGE_NAME_MAJOR_OLD }}'
 
       - name: Test image
         run: |
@@ -112,13 +122,16 @@ jobs:
         if: "${{ github.ref == 'refs/heads/main' }}"
         run: |
           docker push '${{ env.IMAGE_NAME_FULL }}'
+          docker push '${{ env.IMAGE_NAME_FULL_OLD }}'
 
       - name: Push Image Minor
         if: "${{ matrix.wix.version_minor != '' && github.ref == 'refs/heads/main' }}"
         run: |
           docker push '${{ env.IMAGE_NAME_MINOR }}'
+          docker push '${{ env.IMAGE_NAME_MINOR_OLD }}'
 
       - name: Push Image Major
         if: "${{ matrix.wix.version_major != '' && github.ref == 'refs/heads/main' }}"
         run: |
           docker push '${{ env.IMAGE_NAME_MAJOR }}'
+          docker push '${{ env.IMAGE_NAME_MAJOR_OLD }}'
