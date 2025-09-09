@@ -90,13 +90,16 @@ jobs:
             powershell /?
           docker run -t --rm --entrypoint='' `
             '${{ env.IMAGE_NAME_FULL }}' `
-            msbuild -version
-          docker run -t --rm --entrypoint='' `
-            '${{ env.IMAGE_NAME_FULL }}' `
             melt -?
           docker run -t --rm --entrypoint='' `
             '${{ env.IMAGE_NAME_FULL }}' `
             signtool /?
+          docker run -t --rm --entrypoint='' `
+            '${{ env.IMAGE_NAME_FULL }}' `
+            light.exe /?
+          docker run -t --rm --entrypoint='' `
+            '${{ env.IMAGE_NAME_FULL }}' `
+            candle.exe /?
 
       - name: Docker Hub login
         if: "${{ github.ref == 'refs/heads/main' }}"
