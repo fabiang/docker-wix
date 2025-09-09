@@ -199,16 +199,10 @@ jobs:
             powershell /?
           docker run -t --rm --entrypoint='' `
             '${{ env.IMAGE_NAME_FULL }}' `
-            melt -?
+            wix --version
           docker run -t --rm --entrypoint='' `
             '${{ env.IMAGE_NAME_FULL }}' `
             signtool /?
-          docker run -t --rm --entrypoint='' `
-            '${{ env.IMAGE_NAME_FULL }}' `
-            light.exe /?
-          docker run -t --rm --entrypoint='' `
-            '${{ env.IMAGE_NAME_FULL }}' `
-            candle.exe /?
 
       - name: Docker Hub login
         if: "${{ github.ref == 'refs/heads/main' }}"
