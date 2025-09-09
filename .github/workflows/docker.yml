@@ -154,6 +154,12 @@ jobs:
             install_path: "C:\\Program Files\\WiX Toolset v6.0"
             download_url: "https://github.com/wixtoolset/wix/releases/download/v6.0.2/wix-cli-x64.msi"
             download_hash: "A8A5CC7443353CEF3AB900C60CD7A3A5EE601746319D104AC7B12AD0CED2345C"
+          - version: "5.0.2"
+            version_minor: "5.0"
+            version_major: "5"
+            install_path: "C:\\Program Files\\WiX Toolset v5.0"
+            download_url: "https://github.com/wixtoolset/wix/releases/download/v5.0.2/wix-cli-x64.msi"
+            download_hash: "097383B2773BDD3D76A6A2CD3F4DE6357BAE59172E1B6FA5AD87CE062074E8D0"
 
     env:
       IMAGE_NAME_FULL: "fabiang/wix:${{ matrix.wix.version }}-windows${{ matrix.windows.base_image }}-${{ matrix.windows.base_version }}"
