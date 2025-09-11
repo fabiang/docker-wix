@@ -12,7 +12,16 @@ See [Docker hub page for available tags](https://hub.docker.com/r/fabiang/wix/ta
 
 ## Usage
 
-Powershell (Version 3):
+Version 5+:
+
+```
+docker run -it --rm `
+    -v "C:\Users\myuser\Documents\Projects\MyProject:C:\app" `
+    fabiang/docker-wix:6-windowsservercore-ltsc2022 `
+    wix build -define ProductVersion=${productVersion} -define SomeParam=Foobar .\\MyProject.wxs -arch x64
+```
+
+Version 3:
 
 ```
 docker run -it --rm `
